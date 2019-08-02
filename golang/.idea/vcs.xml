@@ -5,5 +5,7 @@
     <mapping directory="$PROJECT_DIR$/pkg/dep/sources/https---github.com-beyond--blockchain-bbclib--go" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/pkg/dep/sources/https---github.com-mattn-go--sqlite3" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/pkg/dep/sources/https---github.com-ugorji-go" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pkg/mod/github.com/beyond-blockchain/bbclib-go@v1.4.1/libs" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pkg/mod/github.com/beyond-blockchain/bbclib-go@v1.4.1/libs/openssl" vcs="Git" />
   </component>
 </project>
