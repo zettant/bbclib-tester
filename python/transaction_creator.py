@@ -22,6 +22,7 @@ user_id1 = common.user_id1
 user_id2 = common.user_id2
 asset_group_id1 = common.asset_group_id1
 asset_group_id2 = common.asset_group_id2
+domain_id = common.domain_id
 
 keypair1 = bbclib.KeyPair()
 keypair2 = bbclib.KeyPair()
@@ -57,10 +58,10 @@ def make_transactions(id_len_conf=None, idlen=None, no_pubkey=False):
         bbclib.add_relation_pointer(transactions[i], 1, ref_transaction_id=transactions[0].transaction_id,
                                     ref_asset_id=transactions[0].relations[0].asset.asset_id)
         bbclib.add_event_asset(transactions[i], event_idx=0, asset_group_id=asset_group_id1,
-                               user_id=user_id1, asset_body=b'event:asset_3-%d' % i)
+                               user_id=user_id2, asset_body=b'event:asset_3-%d' % i)
         transactions[i].events[0].add(mandatory_approver=user_id1)
         bbclib.add_reference_to_transaction(transactions[i], asset_group_id1, transactions[i-1], 0)
-
+        transactions[i].add(cross_ref=bbclib.BBcCrossRef(domain_id=domain_id, transaction_id=transactions[0].transaction_id))
         transactions[i].witness.add_witness(user_id1)
         transactions[i].witness.add_witness(user_id2)
         sig1 = transactions[i].sign(keypair=keypair1, no_pubkey=no_pubkey)
@@ -75,6 +76,10 @@ if __name__ == '__main__':
     common.init_keypair()
     id_len_conf = common.read_idlen_config()
     db = common.DataHandler(del_flag=True)
+    try:
+        db.sql("DROP TABLE txtbl")
+    except:
+        pass
     db.sql("CREATE TABLE txtbl(txid BLOB PRIMARY KEY, tx BLOB)")
     txobjs = make_transactions(id_len_conf=id_len_conf)
     for tx in txobjs:

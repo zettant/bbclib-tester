@@ -1,10 +1,10 @@
 #!/bin/bash
 
 REPO=github.com/beyond-blockchain/bbclib-go
-VERSION=v1.4.2
+VERSION=v1.4.4
 MODULE_DIR="${GOPATH}/pkg/mod/${REPO}@${VERSION}"
 
-go get -u -d ${REPO}
+go get -u -v ${REPO}
 
 if [ -d ${MODULE_DIR} ]; then
     echo "Install libbbcsig into ${MODULE_DIR}"

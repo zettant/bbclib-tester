@@ -28,20 +28,21 @@ import (
 )
 
 var (
-	User_id1 = bbclib.GetIdentifier("user_id1", 32)
-	User_id2 = bbclib.GetIdentifier("user_id2", 32)
-	Asset_group_id1 = bbclib.GetIdentifier("asset_group_id1", 32)
-	Asset_group_id2 = bbclib.GetIdentifier("asset_group_id2", 32)
+	UserID1 = bbclib.GetIdentifier("user_id1", 32)
+	UserID2 = bbclib.GetIdentifier("user_id2", 32)
+	AssetGroupID1 = bbclib.GetIdentifier("asset_group_id1", 32)
+	AssetGroupID2 = bbclib.GetIdentifier("asset_group_id2", 32)
+	DomainID = bbclib.GetIdentifier("domain_id", 32)
 	keypair1 = bbclib.GenerateKeypair(bbclib.KeyTypeEcdsaP256v1, 4)
 	keypair2 = bbclib.GenerateKeypair(bbclib.KeyTypeEcdsaP256v1, 4)
 )
 
 type (
 	IdLenConfig struct {
-		Transaction_id		int  `json:"transaction_id"`
-		User_id				int  `json:"user_id"`
-		Asset_group_id		int  `json:"asset_group_id"`
-		Asset_id		    int  `json:"asset_id"`
+		TransactionID		int  `json:"transaction_id"`
+		UserID				int  `json:"user_id"`
+		AssetGroupID		int  `json:"asset_group_id"`
+		AssetID		    	int  `json:"asset_id"`
 		Nonce			    int  `json:"nonce"`
 	}
 
@@ -50,7 +51,7 @@ type (
 	}
 
 	BBcTransactionData struct {
-		Transaction_id		[]byte
+		TransactionID		[]byte
 		TransactionData		[]byte
 	}
 )
@@ -120,14 +121,14 @@ func (d *DataHandler) Open() {
 	d.db = db
 }
 
-func (d *DataHandler) Sql(q string) {
-	if _, err := d.db.Exec(q); err != nil {
+func (d *DataHandler) Sql(q string, args ...interface{}) {
+	if _, err := d.db.Exec(q, args...); err != nil {
 		log.Fatal(err)
 	}
 }
 
-func (d *DataHandler) FetchSql(q string, args interface{}) []BBcTransactionData {
-	rows, err := d.db.Query(q, args)
+func (d *DataHandler) FetchSql(q string, args ...interface{}) []BBcTransactionData {
+	rows, err := d.db.Query(q, args...)
 	if err != nil {
 		log.Fatal(err)
 		return nil

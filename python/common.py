@@ -22,6 +22,7 @@ user_id1 = bbclib.bbclib_utils.get_new_id("user_id1", include_timestamp=False)
 user_id2 = bbclib.bbclib_utils.get_new_id("user_id2", include_timestamp=False)
 asset_group_id1 = bbclib.bbclib_utils.get_new_id("asset_group_id1", include_timestamp=False)
 asset_group_id2 = bbclib.bbclib_utils.get_new_id("asset_group_id2", include_timestamp=False)
+domain_id = bbclib.bbclib_utils.get_new_id("domain_id", include_timestamp=False)
 
 keypair1 = bbclib.KeyPair()
 keypair2 = bbclib.KeyPair()

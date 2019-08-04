@@ -25,7 +25,7 @@ func TestFileAccess(t *testing.T) {
 	t.Run("read file", func(t *testing.T) {
 		dat := ReadIdLenConfig()
 		t.Logf("IdLenConfig: %v", dat)
-		if dat.Transaction_id < 10 {
+		if dat.TransactionID < 10 {
 			t.Fatal("invalid transaction_id length")
 		}
 	})
