@@ -4,6 +4,12 @@ REPO=github.com/beyond-blockchain/bbclib-go
 VERSION=v1.4.4
 MODULE_DIR="${GOPATH}/pkg/mod/${REPO}@${VERSION}"
 
+if [ $# -eq 1 ]; then
+  VERSION=$1
+fi
+echo ${VERSION}
+exit
+
 go get -u -v ${REPO}
 
 if [ -d ${MODULE_DIR} ]; then
