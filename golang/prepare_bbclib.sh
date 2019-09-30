@@ -1,14 +1,13 @@
 #!/bin/bash
 
 REPO=github.com/beyond-blockchain/bbclib-go
-VERSION=v1.4.4
-MODULE_DIR="${GOPATH}/pkg/mod/${REPO}@${VERSION}"
+VERSION=v1.5
 
 if [ $# -eq 1 ]; then
   VERSION=$1
 fi
 echo ${VERSION}
-exit
+MODULE_DIR="${GOPATH}/pkg/mod/${REPO}@${VERSION}"
 
 go get -u -v ${REPO}
 

@@ -97,16 +97,12 @@ def check_transaction(id_conf, transactions, txids):
                 assert txobj.relations[2].pointers[1].transaction_id == transactions[0].transaction_id
                 assert txobj.relations[3].pointers[0].transaction_id == transactions[0].transaction_id
                 assert txobj.relations[3].pointers[0].asset_id == transactions[0].relations[0].asset.asset_id
-                assert txobj.relations[3].pointers[0].transaction_id == transactions[0].transaction_id
-                assert txobj.relations[3].pointers[0].asset_id == transactions[0].relations[0].asset.asset_id
             else:
                 assert txobj.relations[1].pointers[1].transaction_id == transactions[20].transaction_id
                 assert txobj.relations[1].pointers[1].asset_id == transactions[20].relations[0].asset.asset_id
                 assert txobj.relations[2].pointers[0].transaction_id == transactions[20].transaction_id
                 assert txobj.relations[2].pointers[0].asset_id == transactions[20].relations[0].asset.asset_id
                 assert txobj.relations[2].pointers[1].transaction_id == transactions[20].transaction_id
-                assert txobj.relations[3].pointers[0].transaction_id == transactions[20].transaction_id
-                assert txobj.relations[3].pointers[0].asset_id == transactions[20].relations[0].asset.asset_id
                 assert txobj.relations[3].pointers[0].transaction_id == transactions[20].transaction_id
                 assert txobj.relations[3].pointers[0].asset_id == transactions[20].relations[0].asset.asset_id
 

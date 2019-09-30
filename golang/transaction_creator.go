@@ -42,7 +42,7 @@ func makeTransactions(conf IdLenConfig, noPubkey bool) []*bbclib.BBcTransaction 
 	//fmt.Println(txobj.Stringer())
 
 	for i:=1; i<20; i++ {
-		txobj = bbclib.MakeTransaction(1, 2, true)
+		txobj = bbclib.MakeTransaction(1, 4, true)
 		bbclib.AddRelationAssetBodyString(txobj, 0, &AssetGroupID1, &UserID1, fmt.Sprintf("relation:asset_1-%d", i))
 		bbclib.AddRelationPointer(txobj, 0, &transactions[i-1].TransactionID, &transactions[i-1].Relations[0].Asset.AssetID)
 		bbclib.AddRelationAssetBodyString(txobj, 1, &AssetGroupID2, &UserID2, fmt.Sprintf("relation:asset_2-%d", i))
@@ -51,6 +51,18 @@ func makeTransactions(conf IdLenConfig, noPubkey bool) []*bbclib.BBcTransaction 
 		bbclib.AddEventAssetBodyString(txobj, 0, &AssetGroupID1, &UserID2, fmt.Sprintf("event:asset_3-%d", i))
 		txobj.Events[0].AddMandatoryApprover(&UserID1)
 		bbclib.AddReference(txobj, &AssetGroupID1, transactions[i-1], 0)
+
+		asid := bbclib.GetIdentifier(fmt.Sprintf("asset_id_%d", i), conf.AssetID)
+		bbclib.AddRelationAssetRaw(txobj, 2, &AssetGroupID1, &asid, fmt.Sprintf("relation:asset_4-%d", i))
+		bbclib.AddRelationPointer(txobj, 2, &transactions[0].TransactionID, &transactions[0].Relations[0].Asset.AssetID)
+		bbclib.AddRelationPointer(txobj, 2, &transactions[0].TransactionID, nil)
+
+		bbclib.AddRelationAssetHash(txobj, 3, &AssetGroupID2)
+		for k:=0; k<4; k++ {
+			aid := bbclib.GetIdentifier(fmt.Sprintf("asset_id_%d-%d", i, k), conf.AssetID)
+			txobj.Relations[3].AssetHash.AddAssetId(&aid)
+		}
+		bbclib.AddRelationPointer(txobj, 3, &transactions[0].TransactionID, &transactions[0].Relations[0].Asset.AssetID)
 
 		crossref := bbclib.BBcCrossRef{}
 		txobj.AddCrossRef(&crossref)
