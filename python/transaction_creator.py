@@ -34,7 +34,7 @@ def make_transactions(id_len_conf=None, idlen=None, no_pubkey=False):
         bbclib.configure_id_length(id_len_conf)
     elif idlen is not None:
         bbclib.configure_id_length_all(idlen)
-    transactions.append(bbclib.make_transaction(relation_num=1, event_num=1, witness=True))
+    transactions.append(bbclib.make_transaction(relation_num=1, event_num=1, witness=True, version=2))
     bbclib.add_relation_asset(transactions[0], relation_idx=0, asset_group_id=asset_group_id1,
                               user_id=user_id1, asset_body=b'relation:asset_0-0')
     bbclib.add_event_asset(transactions[0], event_idx=0, asset_group_id=asset_group_id1,
@@ -46,7 +46,7 @@ def make_transactions(id_len_conf=None, idlen=None, no_pubkey=False):
 
     for i in range(1, 20):
         k = i - 1
-        transactions.append(bbclib.make_transaction(relation_num=2, event_num=1, witness=True))
+        transactions.append(bbclib.make_transaction(relation_num=2, event_num=1, witness=True, version=2))
         bbclib.add_relation_asset(transactions[i], 0, asset_group_id=asset_group_id1, user_id=user_id1,
                                   asset_body=b'relation:asset_1-%d' % i)
         bbclib.add_relation_pointer(transactions[i], 0, ref_transaction_id=transactions[k].transaction_id,
@@ -59,6 +59,17 @@ def make_transactions(id_len_conf=None, idlen=None, no_pubkey=False):
                                     ref_asset_id=transactions[0].relations[0].asset.asset_id)
         bbclib.add_event_asset(transactions[i], event_idx=0, asset_group_id=asset_group_id1,
                                user_id=user_id2, asset_body=b'event:asset_3-%d' % i)
+
+        ash = [bbclib.get_new_id("assethash%d" % i)[:bbclib.id_length_conf["asset_id"]] for i in range(5)]
+        rtn2 = bbclib.make_relation_with_asset_raw(asset_group_id1, asset_id=ash[0], asset_body=b'relation:asset_4-%d' % i)
+        rtn3 = bbclib.make_relation_with_asset_hash(asset_group_id2, asset_ids=ash[1:])
+        transactions[i].add(relation=[rtn2, rtn3])
+        bbclib.add_relation_pointer(transactions[i], 2, ref_transaction_id=transactions[0].transaction_id,
+                                    ref_asset_id=transactions[0].relations[0].asset.asset_id)
+        bbclib.add_relation_pointer(transactions[i], 2, ref_transaction_id=transactions[0].transaction_id, ref_asset_id=None)
+        bbclib.add_relation_pointer(transactions[i], 3, ref_transaction_id=transactions[0].transaction_id,
+                                    ref_asset_id=transactions[0].relations[0].asset.asset_id)
+
         transactions[i].events[0].add(mandatory_approver=user_id1)
         bbclib.add_reference_to_transaction(transactions[i], asset_group_id1, transactions[i-1], 0)
         transactions[i].add(cross_ref=bbclib.BBcCrossRef(domain_id=domain_id, transaction_id=transactions[0].transaction_id))

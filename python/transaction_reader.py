@@ -48,11 +48,12 @@ def check_transaction(id_conf, transactions, txids):
             if idx < 20:
                 assert txobj.signatures[0].verify(txobj.digest())
             else:
-                print("no pubkey")
+                #print("no pubkey")
+                pass
 
         else:
             assert len(txobj.transaction_id) == id_conf["transaction_id"]
-            assert len(txobj.relations) == 2
+            assert len(txobj.relations) == 4
             assert len(txobj.relations[0].pointers) == 1
             assert len(txobj.relations[1].pointers) == 2
             assert len(txobj.events) == 1
@@ -75,12 +76,40 @@ def check_transaction(id_conf, transactions, txids):
             assert txobj.relations[1].pointers[0].asset_id == transactions[idx-1].relations[0].asset.asset_id
             assert len(txobj.relations[1].pointers[1].transaction_id) == id_conf["transaction_id"]
             assert len(txobj.relations[1].pointers[1].asset_id) == id_conf["asset_id"]
+
+            assert txobj.relations[2].asset_group_id == asset_group_id1[:id_conf["asset_group_id"]]
+            assert txobj.relations[2].asset_raw.asset_body == b'relation:asset_4-%d' % (idx % 20)
+            assert len(txobj.relations[2].pointers[0].transaction_id) == id_conf["transaction_id"]
+            assert len(txobj.relations[2].pointers[0].asset_id) == id_conf["asset_id"]
+            assert len(txobj.relations[2].pointers[1].transaction_id) == id_conf["transaction_id"]
+            assert txobj.relations[2].pointers[1].asset_id is None
+
+            assert txobj.relations[3].asset_group_id == asset_group_id2[:id_conf["asset_group_id"]]
+            assert len(txobj.relations[3].asset_hash.asset_ids) == 4
+            assert len(txobj.relations[3].pointers[0].transaction_id) == id_conf["transaction_id"]
+            assert len(txobj.relations[3].pointers[0].asset_id) == id_conf["asset_id"]
+
             if idx < 20:
                 assert txobj.relations[1].pointers[1].transaction_id == transactions[0].transaction_id
                 assert txobj.relations[1].pointers[1].asset_id == transactions[0].relations[0].asset.asset_id
+                assert txobj.relations[2].pointers[0].transaction_id == transactions[0].transaction_id
+                assert txobj.relations[2].pointers[0].asset_id == transactions[0].relations[0].asset.asset_id
+                assert txobj.relations[2].pointers[1].transaction_id == transactions[0].transaction_id
+                assert txobj.relations[3].pointers[0].transaction_id == transactions[0].transaction_id
+                assert txobj.relations[3].pointers[0].asset_id == transactions[0].relations[0].asset.asset_id
+                assert txobj.relations[3].pointers[0].transaction_id == transactions[0].transaction_id
+                assert txobj.relations[3].pointers[0].asset_id == transactions[0].relations[0].asset.asset_id
             else:
                 assert txobj.relations[1].pointers[1].transaction_id == transactions[20].transaction_id
                 assert txobj.relations[1].pointers[1].asset_id == transactions[20].relations[0].asset.asset_id
+                assert txobj.relations[2].pointers[0].transaction_id == transactions[20].transaction_id
+                assert txobj.relations[2].pointers[0].asset_id == transactions[20].relations[0].asset.asset_id
+                assert txobj.relations[2].pointers[1].transaction_id == transactions[20].transaction_id
+                assert txobj.relations[3].pointers[0].transaction_id == transactions[20].transaction_id
+                assert txobj.relations[3].pointers[0].asset_id == transactions[20].relations[0].asset.asset_id
+                assert txobj.relations[3].pointers[0].transaction_id == transactions[20].transaction_id
+                assert txobj.relations[3].pointers[0].asset_id == transactions[20].relations[0].asset.asset_id
+
             assert txobj.events[0].asset_group_id == asset_group_id1[:id_conf["asset_group_id"]]
             assert txobj.events[0].mandatory_approvers[0] == user_id1[:id_conf["user_id"]]
             assert txobj.events[0].asset.user_id == user_id2[:id_conf["user_id"]]
@@ -98,11 +127,13 @@ def check_transaction(id_conf, transactions, txids):
             assert len(txobj.witness.sig_indices) == 2
             assert len(txobj.signatures) == 2
             if txobj.signatures[0].pubkey is None:
-                print("no pubkey")
+                #print("no pubkey")
+                pass
             else:
                 assert txobj.signatures[0].verify(txobj.digest())
             if txobj.signatures[1].pubkey is None:
-                print("no_pubkey")
+                #print("no_pubkey")
+                pass
             else:
                 assert txobj.signatures[1].verify(txobj.digest())
 
@@ -121,3 +152,4 @@ if __name__ == '__main__':
         txids.append(dat[0])
     #print(transactions[1])
     check_transaction(id_len_conf, transactions, txids)
+    print("passed")
