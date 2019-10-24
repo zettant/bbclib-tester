@@ -84,7 +84,7 @@ def make_transactions(id_len_conf=None, idlen=None, no_pubkey=False):
 
 
 if __name__ == '__main__':
-    common.init_keypair()
+    keypair1, keypair2 = common.init_keypair()
     id_len_conf = common.read_idlen_config()
     db = common.DataHandler(del_flag=True)
     try:

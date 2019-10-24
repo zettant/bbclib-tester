@@ -24,9 +24,6 @@ asset_group_id1 = bbclib.bbclib_utils.get_new_id("asset_group_id1", include_time
 asset_group_id2 = bbclib.bbclib_utils.get_new_id("asset_group_id2", include_timestamp=False)
 domain_id = bbclib.bbclib_utils.get_new_id("domain_id", include_timestamp=False)
 
-keypair1 = bbclib.KeyPair()
-keypair2 = bbclib.KeyPair()
-
 
 def read_idlen_config():
     with open(os.path.join(this_directory, "../id_len.json"), "r") as f:
@@ -47,6 +44,8 @@ def read_privatekey(name, kp):
 
 
 def init_keypair():
+    keypair1 = bbclib.KeyPair()
+    keypair2 = bbclib.KeyPair()
     if os.path.exists(os.path.join(this_directory, "../db/", "user1")):
         read_privatekey("user1", keypair1)
     else:
@@ -55,6 +54,7 @@ def init_keypair():
         read_privatekey("user2", keypair2)
     else:
         create_privatekey("user2", keypair2)
+    return keypair1, keypair2
 
 
 class DataHandler:
