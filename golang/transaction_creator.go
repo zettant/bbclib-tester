@@ -84,7 +84,7 @@ func main() {
 	idlenconf := ReadIdLenConfig()
 	handler := DataHandler{}
 	handler.Open()
-	handler.Sql("DROP TABLE txtbl")
+	handler.Sql("DROP TABLE IF EXISTS txtbl")
 	handler.Sql("CREATE TABLE txtbl(txid BLOB PRIMARY KEY, tx BLOB)")
 
 	txobjs := makeTransactions(idlenconf, false)
