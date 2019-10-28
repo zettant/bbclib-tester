@@ -33,8 +33,8 @@ var (
 	AssetGroupID1 = bbclib.GetIdentifier("asset_group_id1", 32)
 	AssetGroupID2 = bbclib.GetIdentifier("asset_group_id2", 32)
 	DomainID = bbclib.GetIdentifier("domain_id", 32)
-	keypair1 = bbclib.GenerateKeypair(bbclib.KeyTypeEcdsaP256v1, 4)
-	keypair2 = bbclib.GenerateKeypair(bbclib.KeyTypeEcdsaP256v1, 4)
+	keypair1, _ = bbclib.GenerateKeypair(bbclib.KeyTypeEcdsaP256v1, 4)
+	keypair2, _ = bbclib.GenerateKeypair(bbclib.KeyTypeEcdsaP256v1, 4)
 )
 
 type (
@@ -70,9 +70,9 @@ func ReadIdLenConfig() IdLenConfig {
 }
 
 func CreatePrivateKey(name string, keypair *bbclib.KeyPair) {
-	kp := bbclib.GenerateKeypair(bbclib.KeyTypeEcdsaP256v1, bbclib.DefaultCompressionMode)
-
-	err := ioutil.WriteFile("../db/"+name, ([]byte)(kp.OutputPem()), 0644)
+	kp, _ := bbclib.GenerateKeypair(bbclib.KeyTypeEcdsaP256v1, bbclib.DefaultCompressionMode)
+	pem, _ := kp.OutputPem()
+	err := ioutil.WriteFile("../db/"+name, ([]byte)(pem), 0644)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
