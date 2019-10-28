@@ -9,7 +9,9 @@
     "release:start": "./node_modules/.bin/can-npm-publish --vorbose && git flow release start v$npm_package_version",
     "release:finish": "git flow release finish v$npm_package_version",
     "release:push": "git push --all && git push origin v$npm_package_version",
-    "test": "npm run prepare && cross-env NODE_ENV=test nyc mocha --recursive $(find test -name '*.spec.js')",
+    "test1": "npm run prepare && cross-env NODE_ENV=test nyc mocha --recursive $(find test -name '*.spec.js')",
+    "test2": "npm run prepare && cross-env NODE_ENV=test nyc mocha --recursive $(find test -name '*.spec.js')",
+    "test3": "npm run prepare && cross-env NODE_ENV=test nyc mocha --recursive $(find test -name '*.spec.jsx')",
     "test:bundle": "npm run prepare && npm run webpack && cross-env TEST_ENV=bundle npm run test",
     "karma": "npm run prepare && cross-env TEST_ENV=source ./node_modules/.bin/karma start",
     "karma:bundle": "npm run prepare && npm run webpack && cross-env TEST_ENV=bundle ./node_modules/.bin/karma start",
@@ -61,7 +63,7 @@
   },
   "dependencies": {
     "@babel/runtime": "~7.6.0",
-    "js-bbclib": "^1.5.4",
+    "js-bbclib": "^1.5.5",
     "js-encoding-utils": "^0.5.4",
     "sqlite3": "^4.1.0",
     "text-encoding": "^0.7.0"

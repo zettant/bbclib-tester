@@ -1,7 +1,7 @@
 export const idLength = {
-  transaction_id: 24,
-  asset_group_id: 6,
-  user_id: 8,
-  asset_id: 16,
+  transactionId: 24,
+  assetGroupId: 6,
+  userId: 8,
+  assetId: 32,
   nonce: 9
 };
