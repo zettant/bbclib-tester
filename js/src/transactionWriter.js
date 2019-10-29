@@ -108,61 +108,52 @@ async function createTransactions(){
     const sig = await transactions[0].sign(null, null, null, common.keypair1);
     transactions[0].witness.addSignature(userId1, sig);
     await transactions[0].setTransactionId();
-    common.showStr(transactions[0]);
-    console.log(jseu.encoder.arrayBufferToHexString(await transactions[0].pack()));
-    console.log(jseu.encoder.arrayBufferToHexString(transactions[0].events[0].pack()));
-    console.log(jseu.encoder.arrayBufferToHexString(transactions[0].events[0].asset.pack()));
-    console.log("###################################");
 
-    for(let i = 0; i < 19; i++){
-        const l = i + 1;
+    for(let i = 1; i < 20; i++){
+        const k = i - 1
         transactions.push(await makeTransaction(2,1, true,2.0));
-        const relationBody2 = (new TextEncoder).encode(`relation:asset_1-${l}`);
-        transactions[l] = await addRelationAsset(transactions[l], 0, assetGroupId1, userId1, relationBody2, null);
-        transactions[l] = await addRelationPointer(transactions[l], 0, transactions[i].transactionId, transactions[i].relations[0].asset.assetId);
+        const relationBody2 = (new TextEncoder).encode(`relation:asset_1-${i}`);
+        transactions[i] = await addRelationAsset(transactions[i], 0, assetGroupId1, userId1, relationBody2, null);
+        transactions[i] = await addRelationPointer(transactions[i], 0, transactions[k].transactionId, transactions[k].relations[0].asset.assetId);
 
-        const relationBody3 = (new TextEncoder).encode(`relation:asset_2-${l}`);
-        transactions[l] = await addRelationAsset(transactions[l], 1, assetGroupId2, userId2, relationBody3, null);
-        transactions[l] = await addRelationPointer(transactions[l], 1, transactions[i].transactionId, transactions[i].relations[0].asset.assetId);
-        transactions[l] = await addRelationPointer(transactions[l], 1, transactions[0].transactionId, transactions[0].relations[0].asset.assetId);
+        const relationBody3 = (new TextEncoder).encode(`relation:asset_2-${i}`);
+        transactions[i] = await addRelationAsset(transactions[i], 1, assetGroupId2, userId2, relationBody3, null);
+        transactions[i] = await addRelationPointer(transactions[i], 1, transactions[k].transactionId, transactions[k].relations[0].asset.assetId);
+        transactions[i] = await addRelationPointer(transactions[i], 1, transactions[0].transactionId, transactions[0].relations[0].asset.assetId);
 
-        const eventBody = (new TextEncoder).encode(`event:asset_3-${l}`);
-        transactions[l] = await addEventAsset(transactions[l], 0, assetGroupId1, userId2, eventBody, null);
+        const eventBody = (new TextEncoder).encode(`event:asset_3-${i}`);
+        transactions[i] = await addEventAsset(transactions[i], 0, assetGroupId1, userId2, eventBody, null);
 
         const assetIds = [];
         for (let k = 0; k < 5; k++){
             assetIds.push(await bbclib.helper.getRandomValue(idLength.assetId));
         }
 
-        const relationBody4 = (new TextEncoder).encode(`relation:asset_4-${l}`);
+        const relationBody4 = (new TextEncoder).encode(`relation:asset_4-${i}`);
         const relations2 = await makeRelationWithAssetRaw(assetGroupId1, assetIds[0], relationBody4);
         const assetIdsForHash = assetIds.slice(1,5);
         const relations3 = await makeRelationWithAssetHash(assetGroupId2, assetIdsForHash);
-        transactions[l].addRelation(relations2);
-        transactions[l].addRelation(relations3);
+        transactions[i].addRelation(relations2);
+        transactions[i].addRelation(relations3);
 
-        transactions[l] = await addRelationPointer(transactions[l], 2, transactions[0].transactionId, transactions[0].relations[0].asset.assetId);
-        transactions[l] = await addRelationPointer(transactions[l], 2, transactions[0].transactionId, null);
-        transactions[l] = await addRelationPointer(transactions[l], 3, transactions[0].transactionId, transactions[0].relations[0].asset.assetId);
+        transactions[i] = await addRelationPointer(transactions[i], 2, transactions[0].transactionId, transactions[0].relations[0].asset.assetId);
+        transactions[i] = await addRelationPointer(transactions[i], 2, transactions[0].transactionId, null);
+        transactions[i] = await addRelationPointer(transactions[i], 3, transactions[0].transactionId, transactions[0].relations[0].asset.assetId);
 
-        transactions[l].events[0].addMandatoryApprover(userId1);
-        transactions[l] = await addRefernceToTransaction(transactions[l], assetGroupId1, transactions[l-1], 0);
+        transactions[i].events[0].addMandatoryApprover(userId1);
+        transactions[i] = await addRefernceToTransaction(transactions[i], assetGroupId1, transactions[i-1], 0);
 
         const crossRef = new bbclib.BBcCrossRef(domainId, transactions[0].transactionId);
-        transactions[l].setCrossRef(crossRef);
-        transactions[l].witness.addWitness(userId1);
-        transactions[l].witness.addWitness(userId2);
+        transactions[i].setCrossRef(crossRef);
+        transactions[i].witness.addWitness(userId1);
+        transactions[i].witness.addWitness(userId2);
 
-        const sig1 = await transactions[l].sign(0, null, null, common.keypair1);
-        const sig2 = await transactions[l].sign(0, null, null, common.keypair2);
-        transactions[l].witness.addSignature(userId1, sig1);
-        transactions[l].witness.addSignature(userId2, sig2);
+        const sig1 = await transactions[i].sign(0, null, null, common.keypair1);
+        const sig2 = await transactions[i].sign(0, null, null, common.keypair2);
+        transactions[i].witness.addSignature(userId1, sig1);
+        transactions[i].witness.addSignature(userId2, sig2);
 
-        await transactions[l].setTransactionId();
-        common.showStr(transactions[l]);
-        console.log(jseu.encoder.arrayBufferToHexString(await transactions[l].pack()));
-
-        console.log("###################################");
+        await transactions[i].setTransactionId();
 
     }
     return transactions
@@ -179,7 +170,6 @@ export async function writeData(){
         let data = [];
         data = data.concat(Array.from(new Uint8Array(2)));
         data = data.concat(Array.from(await transactions[i].pack()));
-        console.log(jseu.encoder.arrayBufferToHexString(transactions[i].transactionId));
         await common.writeData(db, transactions[i].transactionId, new Uint8Array(data));
     }
     return true

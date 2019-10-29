@@ -27,7 +27,6 @@ describe(`${envName}: transactionReader`, () => {
     this.timeout(50000);
     const data = await bbclibTester.transactionReader.readData();
     for (let i = 0; i < data.length; i++){
-      console.log(`index :${i}`);
       const transactionId = data[i][0];
       const transaction = data[i][1];
       const transactionBin = data[i][2];
@@ -59,7 +58,7 @@ describe(`${envName}: transactionReader`, () => {
         expect(transaction.witness.sigIndices.length).to.be.eq(1);
         expect(transaction.signatures.length).to.be.eq(1);
         if (i < 20){
-          // expect(await transaction.signatures[0].verify(await transaction.digest())).to.be.eq(true);
+          expect(await transaction.signatures[0].verify(await transaction.getTransactionBase())).to.be.eq(true);
         }
       }else{
         expect(transaction.transactionId.length).to.be.eq(idLength.transactionId);
@@ -159,16 +158,16 @@ describe(`${envName}: transactionReader`, () => {
         expect(transaction.witness.userIds.length).to.be.eq(2);
         expect(transaction.witness.sigIndices.length).to.be.eq(2);
         expect(transaction.signatures.length).to.be.eq(2);
-        if (transaction.signatures[0].pubkeyByte.length !== 0){
+        if (transaction.signatures[0].pubkeyByte.length == 0){
           continue;
         }else{
-          //expect(await transaction.signatures[0].verify(await transaction.digest())).to.be.eq(true);
+          expect(await transaction.signatures[0].verify(await transaction.getTransactionBase())).to.be.eq(true);
         }
 
-        if (transaction.signatures[1].pubkeyByte.length !== 0){
+        if (transaction.signatures[1].pubkeyByte.length == 0){
           continue;
         }else{
-          // expect(await transaction.signatures[1].verify(await transaction.digest())).to.be.eq(true);
+          expect(await transaction.signatures[1].verify(await transaction.getTransactionBase())).to.be.eq(true);
         }
       }
     }
@@ -176,8 +175,6 @@ describe(`${envName}: transactionReader`, () => {
 
 });
 
-// expectUint8Array(event.asset.assetBody,eventUnpack.asset.assetBody);
-// expect(event.asset.assetFileSize).to.be.eq(eventUnpack.asset.assetFileSize);
 
 function expectUint8Array(bin1, bin2){
   expect(jseu.encoder.arrayBufferToHexString(bin1)).to.be.eq(jseu.encoder.arrayBufferToHexString(bin2));

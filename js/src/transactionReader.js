@@ -15,7 +15,6 @@ export async function readData(){
         const header = bbclib.helper.hboToInt16(transactionBin.slice(0,2));
         if (header == 0) {
             await transaction.unpack(transactionBin.slice(2));
-            // common.showStr(transaction);
             await transaction.setTransactionId();
             transactionData.push([txobj[i].txid, transaction, transactionBin.slice(2)]);
         }

@@ -46,7 +46,6 @@ async function readPrivateKey(name){
     if (name=="user1"){
         const privateKey = String.fromCharCode.apply("", new Uint16Array(fs.readFileSync(user1FilePath)));
         keypair1.setKeyPair('pem', privateKey, null);
-        // console.log(keypair1);
         await keypair1.createPublicKeyFromPrivateKey();
     }
     if (name=="user2"){
@@ -74,10 +73,6 @@ export async function initKeyPair(){
         });
     }
 };
-
-
-
-
 
 
 export function showStr(transaction) {
