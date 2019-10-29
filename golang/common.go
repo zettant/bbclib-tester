@@ -80,6 +80,8 @@ func CreatePrivateKey(name string, keypair *bbclib.KeyPair) {
 
 	keypair.Privkey = kp.Privkey
 	keypair.Pubkey = kp.Pubkey
+	keypair.PublicKeyStructure = kp.PublicKeyStructure
+	keypair.PrivateKeyStructure = kp.PrivateKeyStructure
 	keypair.CurveType = kp.CurveType
 	keypair.CompressionType = kp.CompressionType
 }

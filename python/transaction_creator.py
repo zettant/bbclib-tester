@@ -34,6 +34,7 @@ def make_transactions(id_len_conf=None, idlen=None, no_pubkey=False):
         bbclib.configure_id_length(id_len_conf)
     elif idlen is not None:
         bbclib.configure_id_length_all(idlen)
+
     transactions.append(bbclib.make_transaction(relation_num=1, event_num=1, witness=True, version=2))
     bbclib.add_relation_asset(transactions[0], relation_idx=0, asset_group_id=asset_group_id1,
                               user_id=user_id1, asset_body=b'relation:asset_0-0')
@@ -75,6 +76,7 @@ def make_transactions(id_len_conf=None, idlen=None, no_pubkey=False):
         transactions[i].add(cross_ref=bbclib.BBcCrossRef(domain_id=domain_id, transaction_id=transactions[0].transaction_id))
         transactions[i].witness.add_witness(user_id1)
         transactions[i].witness.add_witness(user_id2)
+        transactions[i].digest()
         sig1 = transactions[i].sign(keypair=keypair1, no_pubkey=no_pubkey)
         sig2 = transactions[i].sign(keypair=keypair2, no_pubkey=no_pubkey)
         transactions[i].witness.add_signature(user_id1, sig1)
@@ -89,7 +91,7 @@ if __name__ == '__main__':
     db = common.DataHandler(del_flag=True)
     try:
         db.sql("DROP TABLE txtbl")
-    except:
+    except Exception as e:
         pass
     db.sql("CREATE TABLE txtbl(txid BLOB PRIMARY KEY, tx BLOB)")
     txobjs = make_transactions(id_len_conf=id_len_conf)
