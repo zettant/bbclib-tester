@@ -62,7 +62,7 @@
   },
   "dependencies": {
     "@babel/runtime": "~7.6.0",
-    "js-bbclib": "^1.5.5",
+    "js-bbclib": "^1.5.6",
     "js-encoding-utils": "^0.5.4",
     "sqlite3": "^4.1.0",
     "text-encoding": "^0.7.0"
