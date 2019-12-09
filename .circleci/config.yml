@@ -34,5 +34,5 @@ jobs:
       # run tests!
       - run:
           name: "run tests"
-          command: yarn test
+          command: yarn karma
           working_directory: js
