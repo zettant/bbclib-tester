@@ -25,15 +25,14 @@ jobs:
             - v1-dependencies-{{ checksum "package.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-      - run:
-          name: "move directory"
-          command: cd js
 
       - run:
           name: "prepare package"
           command: yarn install
+          working_directory: js
 
       # run tests!
       - run:
           name: "run tests"
           command: yarn test
+          working_directory: js
