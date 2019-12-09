@@ -33,11 +33,6 @@ jobs:
           name: "prepare package"
           command: yarn install
 
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-
       # run tests!
       - run:
           name: "run tests"
