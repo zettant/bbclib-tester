@@ -1,0 +1,9 @@
+.DS_Store
+.idea/
+JavaScript/
+db/
+js/coverage/
+python/__pycache__/
+python/venv/
+
+
