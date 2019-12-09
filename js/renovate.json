@@ -5,7 +5,7 @@
     ":pinOnlyDevDependencies",
     ":pinSkipCi"
   ],
-  "assignees": ["junkurihara"],
+  "assignees": ["t-hashimoto249"],
   "automerge": true,
   "major": {
     "automerge": false
