@@ -7,18 +7,17 @@ workflows:
   version: 2
   test:
     jobs:
-      - python-test
       - js-test
+      - python-test
 
 jobs:
   python-test:
     docker:
       - image: circleci/python:3.7.0
     working_directory: ~/repo
-
     steps:
       - checkout
-      -
+
       - run:
           name: "prepare python env and tests"
           command: python3 -mvenv venv && . venv/bin/activate && pip install -r requirements.txt && python transaction_creator.py && python transaction_reader.py
@@ -28,9 +27,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/node:12.13.1
-
     working_directory: ~/repo
-
     steps:
       - checkout
 
