@@ -2,8 +2,7 @@
   "extends": [
     "config:base",
     ":timezone(Asia/Tokyo)",
-    ":pinOnlyDevDependencies",
-    ":pinSkipCi"
+    ":automergePatch"
   ],
   "assignees": ["t-hashimoto249"],
   "automerge": true,
@@ -16,5 +15,8 @@
   "patch": {
     "automerge": true
   },
-  "labels": ["update-dependencies"]
+  "labels": ["renovate"],
+  "schedule": [
+    "after 9pm every weekday"
+  ]
 }

@@ -2,8 +2,8 @@ import sqlite3 from 'sqlite3';
 import fs from 'fs';
 import * as bbclib from 'js-bbclib';
 import jseu from "js-encoding-utils";
-export let keypair1 = new bbclib.KeyPair();
-export let keypair2 = new bbclib.KeyPair();
+export let keypair1 = new bbclib.createKeypair();
+export let keypair2 = new bbclib.createKeypair();
 
 export function getDB(){
     const database = new sqlite3.Database("../db/txdb.sqlite");
