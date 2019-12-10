@@ -22,7 +22,7 @@ jobs:
       - run:
           name: "prepare python env and tests"
           command: python3 -mvenv venv && . venv/bin/activate && pip install -r requirements.txt && python transaction_creator.py && python transaction_reader.py
-            working_directory: python
+          working_directory: python
 
   js-test:
     docker:
