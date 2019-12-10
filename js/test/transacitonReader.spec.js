@@ -30,11 +30,9 @@ describe(`${envName}: transactionReader`, () => {
       const transactionId = data[i][0];
       const transaction = data[i][1];
       const transactionBin = data[i][2];
-
       if (i % 20 === 0){
-
-        expect(transaction.transactionId.length).to.be.eq(idLength.transactionId);
-        expectUint8Array(transaction.transactionId, transactionId);
+        expect((await transaction.getTransactionId()).length).to.be.eq(idLength.transactionId);
+        expectUint8Array(await transaction.getTransactionId(), transactionId);
         expect(transaction.relations.length).to.be.eq(1);
         expect(transaction.events.length).to.be.eq(1);
 
@@ -61,7 +59,7 @@ describe(`${envName}: transactionReader`, () => {
           expect(await transaction.signatures[0].verify(await transaction.getTransactionBase())).to.be.eq(true);
         }
       }else{
-        expect(transaction.transactionId.length).to.be.eq(idLength.transactionId);
+        expect((await transaction.getTransactionId()).length).to.be.eq(idLength.transactionId);
         expect(transaction.relations.length).to.be.eq(4);
         expect(transaction.relations[0].pointers.length).to.be.eq(1);
         expect(transaction.relations[1].pointers.length).to.be.eq(2);
@@ -90,11 +88,8 @@ describe(`${envName}: transactionReader`, () => {
         // pointers 0
         expect(transaction.relations[1].pointers[0].transactionId.length).to.be.eq(idLength.transactionId);
         expect(transaction.relations[1].pointers[0].assetId.length).to.be.eq(idLength.assetId);
-
-        expectUint8Array(transaction.relations[1].pointers[0].transactionId, data[i-1][1].transactionId);
-
+        expectUint8Array(transaction.relations[1].pointers[0].transactionId, await data[i-1][1].getTransactionId());
         expectUint8Array(transaction.relations[1].pointers[0].assetId, data[i-1][1].relations[0].asset.assetId);
-
         //pointers 1
         expect(transaction.relations[1].pointers[1].transactionId.length).to.be.eq(idLength.transactionId);
         expect(transaction.relations[1].pointers[1].assetId.length).to.be.eq(idLength.assetId);
@@ -107,31 +102,28 @@ describe(`${envName}: transactionReader`, () => {
         expect(transaction.relations[2].pointers[0].assetId.length).to.be.eq(idLength.assetId);
         expect(transaction.relations[2].pointers[1].transactionId.length).to.be.eq(idLength.transactionId);
         expect(transaction.relations[2].pointers[1].assetId).to.be.eq(null);
-
         // relations 3
         expect(jseu.encoder.arrayBufferToHexString(transaction.relations[3].assetGroupId)).to.be.eq(assetGroupId2);
         expect(transaction.relations[3].assetHash.assetIds.length).to.be.eq(4);
         expect(transaction.relations[3].pointers[0].transactionId.length).to.be.eq(idLength.transactionId);
         expect(transaction.relations[3].pointers[0].assetId.length).to.be.eq(idLength.assetId);
-
         if (i < 20){
-          expectUint8Array(transaction.relations[1].pointers[1].transactionId,data[0][1].transactionId);
+          expectUint8Array(transaction.relations[1].pointers[1].transactionId, await data[0][1].getTransactionId());
           expectUint8Array(transaction.relations[1].pointers[1].assetId,data[0][1].relations[0].asset.assetId);
-          expectUint8Array(transaction.relations[2].pointers[0].transactionId,data[0][1].transactionId);
-          expectUint8Array(transaction.relations[2].pointers[0].assetId,data[0][1].relations[0].asset.assetId);
-          expectUint8Array(transaction.relations[2].pointers[1].transactionId,data[0][1].transactionId);
-          expectUint8Array(transaction.relations[3].pointers[0].transactionId,data[0][1].transactionId);
+          expectUint8Array(transaction.relations[2].pointers[0].transactionId, await data[0][1].getTransactionId());
+          expectUint8Array(transaction.relations[2].pointers[0].assetId, data[0][1].relations[0].asset.assetId);
+          expectUint8Array(transaction.relations[2].pointers[1].transactionId, await data[0][1].getTransactionId());
+          expectUint8Array(transaction.relations[3].pointers[0].transactionId, await data[0][1].getTransactionId());
           expectUint8Array(transaction.relations[3].pointers[0].assetId,data[0][1].relations[0].asset.assetId);
         }else{
-          expectUint8Array(transaction.relations[1].pointers[1].transactionId,data[20][1].transactionId);
+          expectUint8Array(transaction.relations[1].pointers[1].transactionId, await data[20][1].getTransactionId());
           expectUint8Array(transaction.relations[1].pointers[1].assetId,data[20][1].relations[0].asset.assetId);
-          expectUint8Array(transaction.relations[2].pointers[0].transactionId,data[20][1].transactionId);
+          expectUint8Array(transaction.relations[2].pointers[0].transactionId, await data[20][1].getTransactionId());
           expectUint8Array(transaction.relations[2].pointers[0].assetId,data[20][1].relations[0].asset.assetId);
-          expectUint8Array(transaction.relations[2].pointers[1].transactionId,data[20][1].transactionId);
-          expectUint8Array(transaction.relations[3].pointers[0].transactionId,data[20][1].transactionId);
+          expectUint8Array(transaction.relations[2].pointers[1].transactionId, await data[20][1].getTransactionId());
+          expectUint8Array(transaction.relations[3].pointers[0].transactionId, await data[20][1].getTransactionId());
           expectUint8Array(transaction.relations[3].pointers[0].assetId,data[20][1].relations[0].asset.assetId);
         }
-
         // event
         expect(transaction.events[0].assetGroupId.length).to.be.eq(idLength.assetGroupId);
         expect(jseu.encoder.arrayBufferToHexString(transaction.events[0].mandatoryApprovers[0])).to.be.eq(userId1);
@@ -148,23 +140,22 @@ describe(`${envName}: transactionReader`, () => {
         // crossRef
         expect(jseu.encoder.arrayBufferToHexString(transaction.crossRef.domainId)).to.be.eq(domainId);
         if (i < 20 ){
-          expectUint8Array(transaction.crossRef.transactionId,data[0][1].transactionId);
-
+          expectUint8Array(transaction.crossRef.transactionId, await data[0][1].getTransactionId());
         }else{
-          expectUint8Array(transaction.crossRef.transactionId,data[20][1].transactionId);
+          expectUint8Array(transaction.crossRef.transactionId, await data[20][1].getTransactionId());
         }
 
         // witness
         expect(transaction.witness.userIds.length).to.be.eq(2);
         expect(transaction.witness.sigIndices.length).to.be.eq(2);
         expect(transaction.signatures.length).to.be.eq(2);
-        if (transaction.signatures[0].pubkeyByte.length == 0){
+        if (transaction.signatures[0].keypair == null){
           continue;
         }else{
           expect(await transaction.signatures[0].verify(await transaction.getTransactionBase())).to.be.eq(true);
         }
 
-        if (transaction.signatures[1].pubkeyByte.length == 0){
+        if (transaction.signatures[1].keypair == null){
           continue;
         }else{
           expect(await transaction.signatures[1].verify(await transaction.getTransactionBase())).to.be.eq(true);

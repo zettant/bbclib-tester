@@ -1,5 +1,22 @@
 {
   "extends": [
-    "config:base"
+    "config:base",
+    ":timezone(Asia/Tokyo)",
+    ":automergePatch"
+  ],
+  "assignees": ["t-hashimoto249"],
+  "automerge": true,
+  "major": {
+    "automerge": false
+  },
+  "minor": {
+    "automerge": true
+  },
+  "patch": {
+    "automerge": true
+  },
+  "labels": ["renovate"],
+  "schedule": [
+    "after 9pm every weekday"
   ]
 }
