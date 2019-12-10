@@ -3,16 +3,31 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2
+workflows:
+  version: 2
+  test:
+    jobs:
+      - python-test
+      - js-test
+
 jobs:
-  build:
+  python-test:
+    docker:
+      - image: circleci/python:3.7
+      working_directory: ~/repo
+
+      steps:
+        - checkout
+        -
+        - run:
+            name: "prepare python env and tests"
+            command: python3 -mvenv venv && . venv/bin/activate && pip install -r requirements.txt && python transaction_creator.py && python transaction_reader.py
+            working_directory: python
+
+  js-test:
     docker:
       # specify the version you desire here
       - image: circleci/node:12.13.1
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
 
     working_directory: ~/repo
 
@@ -20,6 +35,6 @@ jobs:
       - checkout
 
       - run:
-          name: "prepare package and tests"
+          name: "prepare js package and tests"
           command: yarn install && yarn write && yarn read
           working_directory: js
