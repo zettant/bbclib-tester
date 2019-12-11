@@ -46,6 +46,6 @@ jobs:
       - checkout
 
       - run:
-          name: "prepare js package and tests"
-          command: make mod && make prepare && make all && ./transaction_creator && ./transaction_reader
+          name: "prepare go and tests"
+          command: make all && ./transaction_creator && ./transaction_reader
           working_directory: golang
