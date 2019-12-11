@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"github.com/beyond-blockchain/bbclib-go"
 	_ "github.com/mattn/go-sqlite3"
+	"time"
 )
 
 var (
@@ -32,22 +33,27 @@ func makeTransactions(conf IdLenConfig, noPubkey bool) []*bbclib.BBcTransaction 
 	bbclib.ConfigureIdLength(&idConf)
 	transactions := make([]*bbclib.BBcTransaction, 20)
 
-	txobj := bbclib.MakeTransaction(1, 1, true)
-	bbclib.AddRelationAssetBodyString(txobj, 0, &AssetGroupID1, &UserID1, "relation:asset_0-0")
-	bbclib.AddEventAssetBodyString(txobj, 0, &AssetGroupID1, &UserID1, "event:asset_0-0")
-	txobj.Events[0].AddMandatoryApprover(&UserID1)
-	txobj.Witness.AddWitness(&UserID1)
-	txobj.SignAndAdd(&keyp1, UserID1, noPubkey)
-	transactions[0] = txobj
+	txobj := bbclib.BBcTransaction{Version: 2}
+	txobj.SetIdLengthConf(&idConf)
+	txobj.Timestamp = time.Now().UnixNano() / int64(time.Microsecond)
+
+	txobj.AddRelation(&AssetGroupID1).AddEvent(&AssetGroupID1, nil)
+	txobj.Relations[0].CreateAsset(&UserID1, nil, "relation:asset_0-0")
+	txobj.Events[0].CreateAsset(&UserID1, nil, "event:asset_0-0").AddMandatoryApprover(&UserID1)
+	txobj.AddWitness(&UserID1)
+	txobj.Sign(&UserID1, &keyp1, noPubkey)
+	transactions[0] = &txobj
 	//fmt.Println(txobj.Stringer())
 
 	for i:=1; i<20; i++ {
-		txobj = bbclib.MakeTransaction(1, 4, true)
+		txobj := bbclib.MakeTransaction(1, 3, true)
 		bbclib.AddRelationAssetBodyString(txobj, 0, &AssetGroupID1, &UserID1, fmt.Sprintf("relation:asset_1-%d", i))
 		bbclib.AddRelationPointer(txobj, 0, &transactions[i-1].TransactionID, &transactions[i-1].Relations[0].Asset.AssetID)
+
 		bbclib.AddRelationAssetBodyString(txobj, 1, &AssetGroupID2, &UserID2, fmt.Sprintf("relation:asset_2-%d", i))
 		bbclib.AddRelationPointer(txobj, 1, &transactions[i-1].TransactionID, &transactions[i-1].Relations[0].Asset.AssetID)
 		bbclib.AddRelationPointer(txobj, 1, &transactions[0].TransactionID, &transactions[0].Relations[0].Asset.AssetID)
+
 		bbclib.AddEventAssetBodyString(txobj, 0, &AssetGroupID1, &UserID2, fmt.Sprintf("event:asset_3-%d", i))
 		txobj.Events[0].AddMandatoryApprover(&UserID1)
 		bbclib.AddReference(txobj, &AssetGroupID1, transactions[i-1], 0)
@@ -57,21 +63,20 @@ func makeTransactions(conf IdLenConfig, noPubkey bool) []*bbclib.BBcTransaction 
 		bbclib.AddRelationPointer(txobj, 2, &transactions[0].TransactionID, &transactions[0].Relations[0].Asset.AssetID)
 		bbclib.AddRelationPointer(txobj, 2, &transactions[0].TransactionID, nil)
 
-		bbclib.AddRelationAssetHash(txobj, 3, &AssetGroupID2)
+		txobj.AddRelation(&AssetGroupID2)
 		for k:=0; k<4; k++ {
 			aid := bbclib.GetIdentifier(fmt.Sprintf("asset_id_%d-%d", i, k), conf.AssetID)
-			txobj.Relations[3].AssetHash.AddAssetId(&aid)
+			txobj.Relations[3].CreateAssetHash(&aid)
 		}
-		bbclib.AddRelationPointer(txobj, 3, &transactions[0].TransactionID, &transactions[0].Relations[0].Asset.AssetID)
 
-		crossref := bbclib.BBcCrossRef{}
-		txobj.AddCrossRef(&crossref)
-		crossref.Add(&DomainID, &transactions[0].TransactionID)
+		txobj.Relations[3].CreatePointer(&transactions[0].TransactionID, &transactions[0].Relations[0].Asset.AssetID)
+
+		txobj.CreateCrossRef(&DomainID, &transactions[0].TransactionID)
 
 		txobj.Witness.AddWitness(&UserID1)
 		txobj.Witness.AddWitness(&UserID2)
-		txobj.SignAndAdd(&keyp1, UserID1, noPubkey)
-		txobj.SignAndAdd(&keyp2, UserID2, noPubkey)
+		txobj.Sign(&UserID1, &keyp1, noPubkey)
+		txobj.Sign(&UserID2, &keyp2, noPubkey)
 
 		transactions[i] = txobj
 		//fmt.Println(txobj.Stringer())
