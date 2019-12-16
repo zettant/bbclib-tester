@@ -86,16 +86,12 @@ export async function writeData(){
     await common.createTable(db);
     const transactions1 = await createTransactions(true);
     for (let i = 0; i < transactions1.length; i++){
-        let data = [];
-        data = data.concat(Array.from(new Uint8Array(2)));
-        data = data.concat(Array.from(await transactions1[i].pack()));
+        const data = await bbclib.serialize(transactions1[i]);
         await common.writeData(db, await transactions1[i].getTransactionId(), new Uint8Array(data));
     }
     const transactions2 = await createTransactions(false);
     for (let i = 0; i < transactions2.length; i++){
-        let data = [];
-        data = data.concat(Array.from(new Uint8Array(2)));
-        data = data.concat(Array.from(await transactions2[i].pack()));
+        const data = await bbclib.serialize(transactions2[i]);
         await common.writeData(db, await transactions2[i].getTransactionId(), new Uint8Array(data));
     }
     return true

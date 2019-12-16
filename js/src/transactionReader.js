@@ -11,14 +11,10 @@ export async function readData(){
     const transactionData = [];
     for (let i = 0; i < txobj.length; i++){
         const transactionBin = new Uint8Array(txobj[i].tx);
-        const header = bbclib.helper.hboToInt16(transactionBin.slice(0,2));
-        if (header == 0) {
-            const transaction = await bbclib.loadBinaryTransaction(transactionBin.slice(2));
-            transactionData.push([txobj[i].txid, transaction, transactionBin.slice(2)]);
-        }
+        const transaction = await bbclib.deserialize(transactionBin);
+        transactionData.push([txobj[i].txid, transaction, transactionBin.slice(2)]);
     }
-
-    return transactionData
+    return transactionData;
 }
 
 
