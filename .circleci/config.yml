@@ -9,7 +9,7 @@ workflows:
     jobs:
       - python-test
       - js-test
-      - go-test
+      # - go-test
 
 jobs:
   python-test:
