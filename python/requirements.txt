@@ -9,4 +9,4 @@ pyOpenSSL==19.0.0
 pytest==3.1.3
 python-dateutil==2.8.0
 six==1.12.0
-py-bbclib~=1.5.1
+py-bbclib==1.5.6
