@@ -37,15 +37,15 @@ jobs:
           command: yarn install && yarn write && yarn read
           working_directory: js
 
-  go-test:
-    docker:
-      # specify the version you desire here
-      - image: circleci/golang:1.13.0
-    working_directory: ~/repo
-    steps:
-      - checkout
-
-      - run:
-          name: "prepare go and tests"
-          command: make all && ./transaction_creator && ./transaction_reader
-          working_directory: golang
+#  go-test:
+#    docker:
+#      # specify the version you desire here
+#      - image: circleci/golang:1.13.0
+#    working_directory: ~/repo
+#    steps:
+#      - checkout
+#
+#      - run:
+#          name: "prepare go and tests"
+#          command: make all && ./transaction_creator && ./transaction_reader
+#          working_directory: golang
