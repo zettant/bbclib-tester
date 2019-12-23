@@ -1,6 +1,6 @@
 asn1crypto==0.24.0
 bson==0.5.8
-cffi==1.12.3
+cffi==1.13.2
 cryptography==2.7
 msgpack-python==0.5.6
 py==1.8.0
