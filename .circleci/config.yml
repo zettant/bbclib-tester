@@ -27,7 +27,7 @@ jobs:
   js-test:
     docker:
       # specify the version you desire here
-      - image: circleci/node:12.16.2
+      - image: circleci/node:12.16.3
     working_directory: ~/repo
     steps:
       - checkout
