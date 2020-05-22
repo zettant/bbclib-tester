@@ -8,5 +8,5 @@ pycparser==2.20
 pytest==5.4.2
 pyOpenSSL==19.1.0
 python-dateutil==2.8.1
-six==1.14.0
+six==1.15.0
 py-bbclib==1.6
