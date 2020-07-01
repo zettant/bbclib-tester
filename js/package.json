@@ -64,7 +64,7 @@
     "@babel/runtime": "~7.10.0",
     "js-bbclib": "1.6.16",
     "js-encoding-utils": "^0.5.4",
-    "sqlite3": "^4.1.0",
+    "sqlite3": "^5.0.0",
     "text-encoding": "^0.7.0"
   }
 }
