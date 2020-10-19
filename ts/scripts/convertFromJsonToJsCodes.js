@@ -9,5 +9,5 @@ replaceText = replaceText.replace(/user_id/,'userId');
 replaceText = replaceText.replace(/nonce/,'nonce');
 
 const idLengthData = `export const idLength = ${replaceText};`;
-fs.writeFile('./src/idLength.js',idLengthData, () => {});
+fs.writeFile('./src/idLength.ts',idLengthData, () => {});
 

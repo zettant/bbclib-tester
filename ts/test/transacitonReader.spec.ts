@@ -30,6 +30,7 @@ describe(`${envName}: transactionReader`, () => {
   it('transactionReader test init', async function () {
     this.timeout(50000);
     const data = await bbclibTester.transactionReader.readData();
+    console.log(data);
     for (let i = 0; i < data.length; i++){
       const transactionId = data[i][0];
       const transaction = data[i][1];

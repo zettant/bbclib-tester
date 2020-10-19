@@ -25,7 +25,7 @@
     "release:finish": "git flow release finish v$npm_package_version",
     "release:push": "git push --all && git push origin v$npm_package_version",
     "read": "npm run prepare && cross-env NODE_ENV=test nyc mocha --recursive $(find test -name 'transacitonReader.spec.ts')",
-    "write": "npm run prepare && cross-env NODE_ENV=test nyc mocha --recursive $(find test -name 'transacitonWriter.spec.js')"
+    "write": "npm run prepare && cross-env NODE_ENV=test nyc mocha --recursive $(find test -name 'transacitonWriter.spec.ts')"
   },
   "author": "Takeshi Hashimoto",
   "license": "MIT",
