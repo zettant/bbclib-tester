@@ -90,7 +90,6 @@ export const writeData = async (): Promise<boolean> => {
   const transactions1 = await createTransactions(true);
   for (let i = 0; i < transactions1.length; i++){
     const data = await bbclib.serialize(transactions1[i]);
-    console.log(data);
     await common.writeData(db, await transactions1[i].getTransactionId(), new Uint8Array(data));
   }
   const transactions2 = await createTransactions(false);
