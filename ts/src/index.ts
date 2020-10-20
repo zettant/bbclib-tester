@@ -1,5 +1,5 @@
 /**
- * index.js
+ * index.ts
  */
 import * as transactionReader from './transactionReader';
 import * as transactionWriter from './transactionWriter';

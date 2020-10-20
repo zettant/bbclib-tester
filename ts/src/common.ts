@@ -14,16 +14,20 @@ export const getDB = (): any => {
 
 export const getData = async (db: any): Promise<any> => {
   return new Promise((resolve) => {
-    //@ts-ignore TS6133: 'err' is declared but its value is never read.
     db.all('select * from txtbl', (err: any, rows:any[]) => {
+      if(err) {
+        console.log(err);
+      }
       resolve(rows);
     });
   });
 };
 
-export const writeData = async (db: any, txid: any, txdat: any): Promise<any> => {
-  db.serialize(() => {
-    db.run('INSERT INTO txtbl(txid, tx) VALUES (?, ?)', [txid, txdat]);
+export const writeData = async (db: any, txid: string, txdat: Uint8Array): Promise<any> => {
+  new Promise(() => {
+    db.serialize(() => {
+      db.run('INSERT INTO txtbl(txid, tx) VALUES (?, ?)', [txid, txdat]);
+    });
   });
 };
 
@@ -43,7 +47,7 @@ export const dropTable = async (db: any): Promise<any> => {
   });
 };
 
-const readPrivateKey = async (name: any): Promise<any> => {
+const readPrivateKey = async (name: string): Promise<any> => {
   const user1FilePath: string = '../db/user1';
   const user2FilePath: string = '../db/user2';
   if (name=='user1'){
