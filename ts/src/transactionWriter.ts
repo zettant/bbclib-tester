@@ -7,7 +7,7 @@ import jseu from 'js-encoding-utils';
 import * as textEncoding from 'text-encoding';
 
 
-const TextEncoder = textEncoding.default.TextEncoder;
+const TextEncoder = textEncoding.TextEncoder;
 // const TextDecoder = textEncoding.default.TextDecoder;
 
 

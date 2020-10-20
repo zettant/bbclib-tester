@@ -4,9 +4,8 @@ import jseu from 'js-encoding-utils';
 import * as chai from 'chai';
 const expect = chai.expect;
 
-// @ts-ignore
 import * as textEncoding from 'text-encoding';
-const TextEncoder = textEncoding.default.TextEncoder;
+const TextEncoder = textEncoding.TextEncoder;
 
 const env = getTestEnv();
 const bbclibTester = env.library;
@@ -171,4 +170,4 @@ describe(`${envName}: transactionReader`, () => {
 
 const expectUint8Array = (bin1: any, bin2: any) => {
   expect(jseu.encoder.arrayBufferToHexString(bin1)).to.be.eq(jseu.encoder.arrayBufferToHexString(bin2));
-}
+};

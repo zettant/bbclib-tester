@@ -64,6 +64,7 @@
   },
   "dependencies": {
     "@types/sqlite3": "^3.1.6",
+    "@types/text-encoding": "^0.0.35",
     "js-bbclib": "1.6.16",
     "js-encoding-utils": "^0.5.4",
     "sqlite3": "^5.0.0",

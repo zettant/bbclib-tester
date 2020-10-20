@@ -14,7 +14,7 @@ describe(`${envName}: transactionWriter`, () => {
 
   it('transactionWriter test init', async function () {
     this.timeout(50000);
-    const flag = await bbclibTester.transactionWriter.writeData();
+    const flag: boolean = await bbclibTester.transactionWriter.writeData();
 
     expect(flag).to.be.equal(true);
   });

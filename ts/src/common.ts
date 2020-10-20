@@ -6,24 +6,21 @@ import * as bbclib from 'js-bbclib';
 export const keypair1 = new bbclib.createKeypair();
 export const keypair2 = new bbclib.createKeypair();
 
-// export const toBuffer = (arraybuffer: any) => {};
-export const getDB = (): any => {
+export const getDB = (): sqlite3.Database => {
   const database = new sqlite3.Database('../db/txdb.sqlite');
   return database;
 };
 
-export const getData = async (db: any): Promise<any> => {
-  return new Promise((resolve) => {
-    db.all('select * from txtbl', (err: any, rows:any[]) => {
-      if(err) {
-        console.log(err);
-      }
-      resolve(rows);
-    });
+export const getData = async (db: sqlite3.Database): Promise<any[]> => new Promise((resolve) => {
+  db.all('select * from txtbl', (err: any, rows:any[]) => {
+    if(err) {
+      console.log(err);
+    }
+    resolve(rows);
   });
-};
+});
 
-export const writeData = async (db: any, txid: string, txdat: Uint8Array): Promise<any> => {
+export const writeData = async (db: sqlite3.Database, txid: string, txdat: Uint8Array): Promise<void> => {
   new Promise(() => {
     db.serialize(() => {
       db.run('INSERT INTO txtbl(txid, tx) VALUES (?, ?)', [txid, txdat]);
@@ -31,7 +28,7 @@ export const writeData = async (db: any, txid: string, txdat: Uint8Array): Promi
   });
 };
 
-export const createTable = async (db: any): Promise<any> => {
+export const createTable = async (db: sqlite3.Database): Promise<void> => {
   new Promise(() => {
     db.serialize(() => {
       db.run('CREATE TABLE txtbl(txid BLOB PRIMARY KEY, tx BLOB)');
@@ -39,7 +36,7 @@ export const createTable = async (db: any): Promise<any> => {
   });
 };
 
-export const dropTable = async (db: any): Promise<any> => {
+export const dropTable = async (db: sqlite3.Database): Promise<void> => {
   new Promise(() => {
     db.serialize(() => {
       db.run('DROP TABLE IF EXISTS txtbl');
@@ -47,7 +44,7 @@ export const dropTable = async (db: any): Promise<any> => {
   });
 };
 
-const readPrivateKey = async (name: string): Promise<any> => {
+const readPrivateKey = async (name: string): Promise<void> => {
   const user1FilePath: string = '../db/user1';
   const user2FilePath: string = '../db/user2';
   if (name=='user1'){
@@ -68,9 +65,9 @@ const readPrivateKey = async (name: string): Promise<any> => {
     keypair2.setKeyPair('pem', privateKey, null);
     await keypair2.createPublicKeyFromPrivateKey();
   }
-}
+};
 
-export const initKeyPair = async (): Promise<any> => {
+export const initKeyPair = async (): Promise<void> => {
   if (fs.existsSync('../db/user1')){
     await readPrivateKey('user1');
   }else{
@@ -87,4 +84,4 @@ export const initKeyPair = async (): Promise<any> => {
       console.log(err);
     });
   }
-}
+};
