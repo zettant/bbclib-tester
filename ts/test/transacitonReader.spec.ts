@@ -6,9 +6,7 @@ const expect = chai.expect;
 
 // @ts-ignore
 import * as textEncoding from 'text-encoding';
-console.log(textEncoding);
 const TextEncoder = textEncoding.default.TextEncoder;
-// const TextDecoder = textEncoding.default.TextDecoder;
 
 const env = getTestEnv();
 const bbclibTester = env.library;
@@ -30,7 +28,6 @@ describe(`${envName}: transactionReader`, () => {
   it('transactionReader test init', async function () {
     this.timeout(50000);
     const data = await bbclibTester.transactionReader.readData();
-    console.log(data);
     for (let i = 0; i < data.length; i++){
       const transactionId = data[i][0];
       const transaction = data[i][1];

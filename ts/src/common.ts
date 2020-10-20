@@ -14,8 +14,9 @@ export const getDB = (): any => {
 
 export const getData = async (db: any): Promise<any> => {
   return new Promise((resolve) => {
-    db.all('select * from txtbl', (res: [any]) => {
-      resolve(res);
+    //@ts-ignore TS6133: 'err' is declared but its value is never read.
+    db.all('select * from txtbl', (err: any, rows:any[]) => {
+      resolve(rows);
     });
   });
 };

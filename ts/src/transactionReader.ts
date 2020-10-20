@@ -10,7 +10,6 @@ export const readData =  async(): Promise<any[]> => {
   const db = common.getDB();
   const txobj: any[] = await common.getData(db);
   const transactionData: any[] = [];
-  console.log(txobj);
   for (let i = 0; i < txobj.length; i++){
     const transactionBin = new Uint8Array(txobj[i].tx);
     const transaction = await bbclib.deserialize(transactionBin);
