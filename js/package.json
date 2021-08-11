@@ -37,7 +37,7 @@
     "@babel/plugin-transform-runtime": "7.15.0",
     "@babel/polyfill": "7.12.1",
     "@babel/preset-env": "7.15.0",
-    "@babel/register": "7.14.5",
+    "@babel/register": "7.15.3",
     "babel-loader": "8.2.2",
     "babel-plugin-istanbul": "6.0.0",
     "babel-plugin-transform-remove-console": "6.9.4",
@@ -61,7 +61,7 @@
     "webpack-merge": "5.8.0"
   },
   "dependencies": {
-    "@babel/runtime": "~7.14.0",
+    "@babel/runtime": "~7.15.0",
     "js-bbclib": "1.6.16",
     "js-encoding-utils": "^0.6.0",
     "sqlite3": "^5.0.0",
