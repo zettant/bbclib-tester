@@ -31,12 +31,12 @@
     "bbclib"
   ],
   "devDependencies": {
-    "@babel/cli": "7.23.4",
-    "@babel/core": "7.23.5",
+    "@babel/cli": "7.23.9",
+    "@babel/core": "7.23.9",
     "@babel/plugin-transform-regenerator": "7.23.3",
-    "@babel/plugin-transform-runtime": "7.23.4",
+    "@babel/plugin-transform-runtime": "7.23.9",
     "@babel/polyfill": "7.12.1",
-    "@babel/preset-env": "7.23.5",
+    "@babel/preset-env": "7.23.9",
     "@babel/register": "7.22.15",
     "babel-loader": "8.3.0",
     "babel-plugin-istanbul": "6.1.1",
