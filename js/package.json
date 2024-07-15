@@ -31,13 +31,13 @@
     "bbclib"
   ],
   "devDependencies": {
-    "@babel/cli": "7.23.4",
-    "@babel/core": "7.23.5",
-    "@babel/plugin-transform-regenerator": "7.23.3",
-    "@babel/plugin-transform-runtime": "7.23.4",
+    "@babel/cli": "7.24.8",
+    "@babel/core": "7.24.9",
+    "@babel/plugin-transform-regenerator": "7.24.7",
+    "@babel/plugin-transform-runtime": "7.24.7",
     "@babel/polyfill": "7.12.1",
-    "@babel/preset-env": "7.23.5",
-    "@babel/register": "7.22.15",
+    "@babel/preset-env": "7.24.8",
+    "@babel/register": "7.24.6",
     "babel-loader": "8.3.0",
     "babel-plugin-istanbul": "6.1.1",
     "babel-plugin-transform-remove-console": "6.9.4",
@@ -61,7 +61,7 @@
     "webpack-merge": "5.10.0"
   },
   "dependencies": {
-    "@babel/runtime": "~7.23.0",
+    "@babel/runtime": "~7.24.0",
     "js-bbclib": "1.6.16",
     "js-encoding-utils": "^0.7.0",
     "sqlite3": "^5.0.0",
