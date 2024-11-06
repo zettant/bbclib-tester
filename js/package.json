@@ -32,12 +32,12 @@
   ],
   "devDependencies": {
     "@babel/cli": "7.25.9",
-    "@babel/core": "7.25.9",
-    "@babel/plugin-transform-regenerator": "7.24.7",
+    "@babel/core": "7.26.0",
+    "@babel/plugin-transform-regenerator": "7.25.9",
     "@babel/plugin-transform-runtime": "7.25.9",
     "@babel/polyfill": "7.12.1",
-    "@babel/preset-env": "7.25.9",
-    "@babel/register": "7.24.6",
+    "@babel/preset-env": "7.26.0",
+    "@babel/register": "7.25.9",
     "babel-loader": "8.3.0",
     "babel-plugin-istanbul": "6.1.1",
     "babel-plugin-transform-remove-console": "6.9.4",
@@ -61,7 +61,7 @@
     "webpack-merge": "5.10.0"
   },
   "dependencies": {
-    "@babel/runtime": "~7.25.0",
+    "@babel/runtime": "~7.26.0",
     "js-bbclib": "1.6.16",
     "js-encoding-utils": "^0.7.0",
     "sqlite3": "^5.0.0",
